@@ -1,0 +1,21 @@
+{
+  "12": {
+    "nombre": "Luis",
+    "identificacion": "12",
+    "direccion": "cl12",
+    "correo": "dd",
+    "residuos": [
+      {
+        "tipoMaterial": "Plástico",
+        "peso": 12.0,
+        "fechaEntrega": "mar 26, 2025"
+      },
+      {
+        "tipoMaterial": "Vidrio",
+        "peso": 5.0,
+        "fechaEntrega": "mar 26, 2025"
+      }
+    ],
+    "puntosEcologicos": 170
+  }
+}
