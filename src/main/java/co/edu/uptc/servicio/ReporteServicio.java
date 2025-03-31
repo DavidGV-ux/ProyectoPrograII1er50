@@ -36,14 +36,19 @@ public class ReporteServicio {
 			documento.add(titulo);
 			documento.add(new Paragraph("\n"));
 
+			agregarTablaTotalPorMaterialPorUsuario(documento);
+
 			// Agregar el total reciclado por usuario
 			agregarTablaTotalReciclado(documento);
+
+			// Agregar ranking de usuarios con más reciclaje
+			agregarRankingUsuarios(documento);
 
 			// Agregar gráfico del material más reciclado
 			agregarGraficoMaterialMasReciclado(documento);
 
-			// Agregar ranking de usuarios con más reciclaje
-			agregarRankingUsuarios(documento);
+			// Agregar total reciclado por material
+			agregarTotalRecicladoPorMaterial(documento);
 
 			documento.close();
 			System.out.println("Reporte PDF generado con éxito!");
@@ -69,6 +74,39 @@ public class ReporteServicio {
 		documento
 				.add(new Paragraph("Total Reciclado por Usuario", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14)));
 		documento.add(tabla);
+		documento.add(new Paragraph("\n"));
+	}
+
+	private void agregarTotalRecicladoPorMaterial(Document documento) throws DocumentException {
+		// Mapa para almacenar el total reciclado por tipo de material
+		Map<String, Double> totalPorMaterial = new HashMap<>();
+
+		// Sumar el peso de los residuos por tipo de material
+		for (Usuario usuario : servicio.obtenerTodosLosUsuarios()) {
+			for (Residuo residuo : usuario.getResiduos()) {
+				totalPorMaterial.put(residuo.getTipoMaterial(),
+						totalPorMaterial.getOrDefault(residuo.getTipoMaterial(), 0.0) + residuo.getPeso());
+			}
+		}
+		// Crear una tabla para mostrar el total reciclado por material
+		PdfPTable tablaMateriales = new PdfPTable(2);
+		tablaMateriales.setWidthPercentage(100);
+		tablaMateriales.setSpacingBefore(10);
+		tablaMateriales
+				.addCell(new PdfPCell(new Phrase("Tipo de Material", FontFactory.getFont(FontFactory.HELVETICA_BOLD))));
+		tablaMateriales.addCell(
+				new PdfPCell(new Phrase("Total Reciclado (Kg)", FontFactory.getFont(FontFactory.HELVETICA_BOLD))));
+
+		// Llenar la tabla con los datos del total reciclado por material
+		for (Map.Entry<String, Double> entry : totalPorMaterial.entrySet()) {
+			tablaMateriales.addCell(entry.getKey());
+			tablaMateriales.addCell(String.valueOf(entry.getValue()));
+		}
+
+		// Agregar la tabla al documento
+		documento.add(new Paragraph("Total Reciclado por Tipo de Material",
+				FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14)));
+		documento.add(tablaMateriales);
 		documento.add(new Paragraph("\n"));
 	}
 
@@ -121,4 +159,40 @@ public class ReporteServicio {
 				FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14)));
 		documento.add(tabla);
 	}
+
+	private void agregarTablaTotalPorMaterialPorUsuario(Document documento) throws DocumentException {
+		PdfPTable tabla = new PdfPTable(3); // 3 columnas: Usuario, Material, Total Reciclado
+		tabla.setWidthPercentage(100);
+		tabla.setSpacingBefore(10);
+		tabla.addCell(new PdfPCell(new Phrase("Usuario", FontFactory.getFont(FontFactory.HELVETICA_BOLD))));
+		tabla.addCell(new PdfPCell(new Phrase("Material", FontFactory.getFont(FontFactory.HELVETICA_BOLD))));
+		tabla.addCell(
+				new PdfPCell(new Phrase("Total Reciclado (Kg)", FontFactory.getFont(FontFactory.HELVETICA_BOLD))));
+
+		// Iterar sobre cada usuario
+		for (Usuario usuario : servicio.obtenerTodosLosUsuarios()) {
+			// Mapa para almacenar el total reciclado por material para cada usuario
+			Map<String, Double> totalPorMaterial = new HashMap<>();
+
+			// Sumar el peso de los residuos por tipo de material para el usuario actual
+			for (Residuo residuo : usuario.getResiduos()) {
+				totalPorMaterial.put(residuo.getTipoMaterial(),
+						totalPorMaterial.getOrDefault(residuo.getTipoMaterial(), 0.0) + residuo.getPeso());
+			}
+
+			// Agregar una fila por cada material reciclado por el usuario
+			for (Map.Entry<String, Double> entry : totalPorMaterial.entrySet()) {
+				tabla.addCell(usuario.getNombre()); // Columna Usuario
+				tabla.addCell(entry.getKey()); // Columna Material
+				tabla.addCell(String.valueOf(entry.getValue())); // Columna Total Reciclado
+			}
+		}
+
+		// Agregar la tabla al documento
+		documento.add(new Paragraph("Total Reciclado por Material por Usuario",
+				FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14)));
+		documento.add(tabla);
+		documento.add(new Paragraph("\n"));
+	}
+
 }
