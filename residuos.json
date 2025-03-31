@@ -14,8 +14,75 @@
         "tipoMaterial": "Vidrio",
         "peso": 5.0,
         "fechaEntrega": "mar 26, 2025"
+      },
+      {
+        "tipoMaterial": "Plástico",
+        "peso": 12.0,
+        "fechaEntrega": "mar 27, 2025"
+      },
+      {
+        "tipoMaterial": "Plástico",
+        "peso": 1.0,
+        "fechaEntrega": "mar 27, 2025"
       }
     ],
-    "puntosEcologicos": 170
+    "puntosEcologicos": 300
+  },
+  "123456": {
+    "nombre": "Luis",
+    "identificacion": "123456",
+    "direccion": "ccc",
+    "correo": "ccc",
+    "residuos": [],
+    "puntosEcologicos": 0
+  },
+  "1234": {
+    "nombre": "Luis",
+    "identificacion": "1234",
+    "direccion": "cll12",
+    "correo": "Luis@gmail.com",
+    "residuos": [],
+    "puntosEcologicos": 0
+  },
+  "dsad": {
+    "nombre": "11",
+    "identificacion": "dsad",
+    "direccion": "asdasd",
+    "correo": "asdasads",
+    "residuos": [],
+    "puntosEcologicos": 0
+  },
+  "0000": {
+    "nombre": "Luis Carlos",
+    "identificacion": "0000",
+    "direccion": "cl1221",
+    "correo": "example@gmail.com",
+    "residuos": [
+      {
+        "tipoMaterial": "Plástico",
+        "peso": 12.0,
+        "fechaEntrega": "mar 31, 2025"
+      }
+    ],
+    "puntosEcologicos": 120
+  },
+  "123": {
+    "nombre": "Andryw",
+    "identificacion": "123",
+    "direccion": "cll112",
+    "correo": "andryw@gmail.com",
+    "residuos": [
+      {
+        "tipoMaterial": "Plástico",
+        "peso": 10.0,
+        "fechaEntrega": "mar 31, 2025"
+      },
+      {
+        "tipoMaterial": "Plástico",
+        "peso": 10.5,
+        "fechaEntrega": "mar 31, 2025"
+      }
+    ],
+    "puntosEcologicos": 205
   }
 }
